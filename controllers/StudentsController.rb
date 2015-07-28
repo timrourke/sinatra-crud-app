@@ -1,8 +1,8 @@
 class StudentsController < ApplicationController
 
 	get '/' do
-		result = Students.all.order('lower(name) ASC')
-		erb :'students/students', :locals => {:students => result}
+		@students = Students.all.order('lower(name) ASC')
+		erb :'students/students', :locals => {:students => @students}
 	end
 
 	get '/new' do 
