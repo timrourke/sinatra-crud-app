@@ -5,5 +5,5 @@ Dir.glob('./{controllers,models}/*.rb').each{
 	|file| require file
 }
 
-require './app'
-run Sinatra::Application
+map('/') { run HomeController }
+map('/students') { run StudentsController }

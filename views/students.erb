@@ -1,9 +1,0 @@
-<h1>All Students</h1>
-<ul>
-	<% students.each do |student| %>
-	
-	<li><a href="/students/<%= student.id %>"><%= student.name %> - <%= student.email %></a> | <a href="/students/edit/<%= student.id %>">Edit</a> | <a href="/students/delete/<%= student.id %>">Delete</a></li>
-	
-	<% end %>	
-</ul>
-
