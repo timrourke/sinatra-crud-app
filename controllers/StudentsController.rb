@@ -10,8 +10,7 @@ class StudentsController < ApplicationController
 	end
 
 	get '/edit/:id' do
-		result = Students.find(params[:id])
-		erb :'students/student_edit', :locals => {:student => result}
+		edit
 	end
 
 	get '/:id' do
@@ -25,17 +24,40 @@ class StudentsController < ApplicationController
 	end
 
 	post '/new' do
-		student = Students.new
-		student.name = params[:student_name]
-		student.email = params[:student_email]
-		student.save
+		create(params)
 	end
 
 	post '/edit' do
-		student = Students.find(params[:student_id])
-		student.name = params[:student_name]
-		student.email = params[:student_email]
-		student.save
+		edit(params)
+	end
+
+	def create(params)
+		@student = Students.new
+		@student.name = params[:student_name]
+		@student.email = params[:student_email]
+		if @student.save
+			redirect '/students/' + @student.id.to_s
+		else
+			redirect back
+		end
+	end
+
+	def edit(params)
+		@student = Students.find(params[:student_id])
+		@student.name = params[:student_name]
+		@student.email = params[:student_email]
+		if @student.save
+			redirect '/students/' + @student.id.to_s
+		else
+			redrect back
+		end
+	end
+
+	def edit
+		@student = Students.find(params[:id])
+		erb :'students/student_edit', :locals => {:student => @student}
+	rescue ActiveRecord::RecordNotFound
+		redirect back
 	end
 
 end
