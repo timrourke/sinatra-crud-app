@@ -10,7 +10,8 @@ class StudentsController < ApplicationController
 	end
 
 	get '/edit/:id' do
-		edit
+		@student = Students.find(params[:id])
+		erb :'students/student_edit', :locals => {:student => @student}
 	end
 
 	get '/:id' do
@@ -28,7 +29,8 @@ class StudentsController < ApplicationController
 	end
 
 	post '/edit' do
-		edit(params)
+		puts params[:student_id]
+		edit(params[:student_id])
 	end
 
 	def create(params)
@@ -42,8 +44,8 @@ class StudentsController < ApplicationController
 		end
 	end
 
-	def edit(params)
-		@student = Students.find(params[:student_id])
+	def edit(id)
+		@student = Students.find(id)
 		@student.name = params[:student_name]
 		@student.email = params[:student_email]
 		if @student.save
@@ -51,13 +53,6 @@ class StudentsController < ApplicationController
 		else
 			redrect back
 		end
-	end
-
-	def edit
-		@student = Students.find(params[:id])
-		erb :'students/student_edit', :locals => {:student => @student}
-	rescue ActiveRecord::RecordNotFound
-		redirect back
 	end
 
 end
